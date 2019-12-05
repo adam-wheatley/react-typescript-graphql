@@ -1,0 +1,13 @@
+query Me {
+    me {
+        firstName
+        lastName
+        email
+        dateOfBirth
+        name
+    }
+}
+
+mutation UpdateMe($firstName: String!, $lastName: String!, $dateOfBirth: DateTime) {
+    updateMe(firstName: $firstName, lastName: $lastName, dateOfBirth: $dateOfBirth)
+}

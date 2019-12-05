@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Routes from "./routes";
+import { setAccessToken } from './accessToken';
+import AuthenticationContext from "./context/authentication";
+import { Loading } from './components/Loading';
 
 const App: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuth] = useState(false);
+  
+  useEffect(() => {
+    fetch(process.env.REACT_APP_REFRESH_TOKEN_API, { credentials: "include", method: "POST" })
+      .then(async x => {
+          const { accessToken, ok } = await x.json();
+          setAuth(ok);
+          setAccessToken(accessToken);
+          setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      })
+  }, []);
+
+  if (loading) return <Loading />;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <AuthenticationContext authenticated={authenticated}>
+      <Routes />
+    </AuthenticationContext>
+  )
+};
 
 export default App;
