@@ -52,11 +52,12 @@ interface Props {
     open: boolean;
     setOpen: Function;
 }
+
 const Burger: React.FC<Props> = ({ open, setOpen }) => {
   const [canUpdate, setCanUpdate] = React.useState(true);
   React.useEffect(() => {
     setCanUpdate(false)
-    setTimeout(() => setCanUpdate(true), 50);
+    setTimeout(() => setCanUpdate(true), 100);
   }, [open]);
 
   return (

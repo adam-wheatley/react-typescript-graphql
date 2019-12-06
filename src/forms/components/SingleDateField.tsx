@@ -25,6 +25,7 @@ export const SingleDateField: React.FC<FieldProps> = ({
         isOutsideRange={day => moment().diff(day) < 0}
         enableOutsideDays
         transitionDuration={0}
+        displayFormat={() => "DD/MM/YYYY"}
       />
     </DateRangeFieldStyles>
   );
